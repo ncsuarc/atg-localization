@@ -29,6 +29,3 @@ def find_ground(
         pos_east += v_east
         pos_agl += v_alt
     return None
-
-
-print(find_ground(10, 0, 0, 0, math.asin(5 / math.sqrt(125))))
