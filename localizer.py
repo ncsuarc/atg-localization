@@ -4,6 +4,7 @@ import math
 STEP_SIZE = 1
 NUM_STEPS = 200
 
+
 def find_ground(
     pos_agl: float,
     pos_north: float,
@@ -29,4 +30,5 @@ def find_ground(
         pos_agl += v_alt
     return None
 
-print(find_ground(10,0,0,0,math.asin(5/math.sqrt(125))))
+
+print(find_ground(10, 0, 0, 0, math.asin(5 / math.sqrt(125))))
