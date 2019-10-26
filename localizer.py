@@ -14,9 +14,9 @@ def find_ground(
         pos: North, East coordinates
         angle: North, East radians
     """
-    pos_north = 0
-    pos_east = 0
-    pos_down = 0
+    pos_north = 0.0
+    pos_east = 0.0
+    pos_down = 0.0
 
     v_north = math.sin(angle_north) * STEP_SIZE
     v_east = math.sin(angle_east) * STEP_SIZE
