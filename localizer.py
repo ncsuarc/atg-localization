@@ -35,7 +35,7 @@ def find_ground(
     step_down = math.cos(angle_north) * math.cos(angle_east) * STEP_SIZE # meters
 
     for _ in range(NUM_STEPS):
-        if pos_down > height:
+        if pos_down >= height:
             return pos_north, pos_east
         pos_north += step_north
         pos_east += step_east
