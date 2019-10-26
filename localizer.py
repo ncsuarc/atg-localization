@@ -6,9 +6,7 @@ NUM_STEPS = 200
 
 
 def find_ground(
-    height: float,
-    angle_north: float,
-    angle_east: float,
+    height: float, angle_north: float, angle_east: float
 ) -> Optional[Tuple[float, float]]:
     """
     Args:
