@@ -18,14 +18,14 @@ def find_ground(
     pos_east = 0.0
     pos_down = 0.0
 
-    v_north = math.sin(angle_north) * STEP_SIZE
-    v_east = math.sin(angle_east) * STEP_SIZE
-    v_down = math.cos(angle_north) * math.cos(angle_east) * STEP_SIZE
+    step_north = math.sin(angle_north) * STEP_SIZE
+    step_east = math.sin(angle_east) * STEP_SIZE
+    step_down = math.cos(angle_north) * math.cos(angle_east) * STEP_SIZE
 
     for _ in range(NUM_STEPS):
-        if pos_down > height:
+        if pos_down >= height:
             return pos_north, pos_east
-        pos_north += v_north
-        pos_east += v_east
-        pos_down += v_down
+        pos_north += step_north
+        pos_east += step_east
+        pos_down += step_down
     return None
