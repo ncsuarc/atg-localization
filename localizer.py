@@ -1,39 +1,43 @@
-import pint
 from typing import Tuple, Optional
 import math
 
-ureg = pint.UnitRegistry()
+STEP_SIZE = 1
+""" Assume we step 1 meter toward target until we hit the ground """
 
-
-STEP_SIZE = 1 * ureg.meter
 NUM_STEPS = 200
+""" The maximum number of steps before test fails """
 
 
-@ureg.wraps(
-    (ureg.meter, ureg.meter),  # return
-    (ureg.meter, ureg.meter, ureg.meter, ureg.radian, ureg.radian),  # param
-)
 def find_ground(
-    pos_agl: float,
-    pos_north: float,
-    pos_east: float,
-    angle_north: float,
-    angle_east: float,
+    height: float, angle_north: float, angle_east: float
 ) -> Optional[Tuple[float, float]]:
     """
+    Return the north and east distance from target to gimble.
+
+    Let height, north angle, and east angle be given by the caller, and assume the 
+    gimble starts at location <0, 0, 0> (<north, east, down>). We then image a 
+    light ray takes 1 meter steps from the gimble towards the target. As we step, 
+    we add the change in distance, relative to the respective plane, to the current 
+    position of the light ray. Once the downward position of the ray is greater 
+    or equal to the height of the gimble, we return the north and east distance 
+    from the gimble to the light ray. 
+
     Args:
-        agl: AGL altitude
-        pos: North, East coordinates
+        height: altitude of gimble
         angle: North, East radians
     """
-    v_north = STEP_SIZE * math.sin(angle_north)
-    v_east = STEP_SIZE * math.sin(angle_east)
-    v_alt = -STEP_SIZE * math.cos(angle_north) * math.cos(angle_east)
+    pos_north = 0.0 # meters
+    pos_east = 0.0 # meters
+    pos_down = 0.0 # meters
 
-    for i in range(NUM_STEPS):
-        if pos_agl <= 0:
+    step_north = math.sin(angle_north) * STEP_SIZE # meters
+    step_east = math.sin(angle_east) * STEP_SIZE # meters
+    step_down = math.cos(angle_north) * math.cos(angle_east) * STEP_SIZE # meters
+
+    for _ in range(NUM_STEPS):
+        if pos_down >= height:
             return pos_north, pos_east
-        pos_north += v_north
-        pos_east += v_east
-        pos_agl += v_alt
+        pos_north += step_north
+        pos_east += step_east
+        pos_down += step_down
     return None
